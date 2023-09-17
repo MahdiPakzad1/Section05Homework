@@ -1,0 +1,50 @@
+﻿<h3>@userName</h3>
+
+<button class="btn btn-primary" @onclick="ToggleShowFox">
+    Fix
+</button>
+
+@if (showFix)
+{
+
+    <NameChoiceComponent FirstName="@FirstName" LastName="@LastName" OnNameTypeSelected="HandleOnNameTypeSelected"></NameChoiceComponent>
+}
+
+@code {
+    //Variable
+    private string userName;
+    private bool showFix = false;
+    //Properties
+
+    [Parameter]
+
+    public string FirstName { get; set; }
+
+    [Parameter]
+
+    public string LastName { get; set; }
+
+    [Parameter]
+
+    public string Message { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        userName = $"{FirstName} {LastName}";
+    }
+
+    private void ToggleShowFox()
+    {
+        showFix = !showFix;
+    }
+
+
+    private void HandleOnNameTypeSelected(string result)
+    {
+        userName = result;
+        showFix = false;
+    }
+
+}

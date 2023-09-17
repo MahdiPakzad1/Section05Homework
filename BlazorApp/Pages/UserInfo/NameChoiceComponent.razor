@@ -1,0 +1,50 @@
+﻿
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Select Name Format
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" @onclick="(() => OnNameSelected(normalType))">@normalType</a></li>
+        <li><a class="dropdown-item" @onclick="(() => OnNameSelected(ReversedType))">@ReversedType</a></li>
+        <li><a class="dropdown-item" @onclick="(() => OnNameSelected(initialType))">@initialType</a></li>
+        <li><a class="dropdown-item" @onclick="(() => OnNameSelected(emailType))">@emailType</a></li>
+    </ul>
+</div>
+
+
+@code {
+    //variables
+    private string normalType = "";
+    private string ReversedType = "";
+    private string initialType = "";
+    private string emailType = "";
+
+    //Properties
+
+    [Parameter]
+    public string FirstName { get; set; }
+
+    [Parameter]
+    public string LastName { get; set; }
+
+    [Parameter]
+
+    public EventCallback<string> OnNameTypeSelected { get; set; }
+
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        normalType = $"{FirstName} {LastName}";
+        ReversedType = $"{LastName}, {FirstName}";
+        initialType = $"{FirstName.Substring(0, 1)}.{LastName}";
+        emailType = $"{FirstName.Substring(0, 1)}{LastName}";
+    }
+
+
+    private void OnNameSelected(string selectedName)
+    {
+        OnNameTypeSelected.InvokeAsync(selectedName);
+    }
+}
